@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
+    id: {
+        type: String,
+        required: true,
+        unique: true
+    },
     title: {
         type: String,
         required: true,
@@ -37,4 +42,4 @@ const schema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Mission", schema);
+module.exports = mongoose.model("Task", schema);

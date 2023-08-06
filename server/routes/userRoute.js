@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 router.get('/', async (req, res) => {
-
     let users = await User.find();
     if (users) {
         res.status(200).send(users).end();
@@ -16,62 +15,67 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res)=>{
+router.post('/', async (req, res) => {
+    try {
+        const latestUser = await User.findOne({}, {}, { sort: { createddate: -1 } });
 
-    bcrypt.hash(req.body.password, 10).then(async (hashedPassword)=>{
+        let newId = 1;
+        if (latestUser) {
+            newId = parseInt(latestUser.id, 10) + 1;
+        }
+        
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        
         const user = new User({
+            id: newId,
             fullname: req.body.fullname,
             username: req.body.username,
             password: hashedPassword,
-            email: req.body.email,
-            image: req.body.image
+            email: req.body.email
         });
     
-        try {
-            await user.save();
-            res.status(200).send(user).end();
-        }
-        catch(error){
-            res.status(404).send(error.message).end();
-        }
-    });
+        await user.save();
+        res.status(201).send();
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-router.post('/login', async (req, res)=>{
 
-    let user = await User.findOne({
-        username: req.body.username
-    });
+router.post('/login', async (req, res) => {
+    try {
+        let user = await User.findOne({
+            email: req.body.email
+        });
 
-    if(user){
+        if (!user) {
+            return res.status(404).send("Incorrect email or password!").end();
+        }
+
+        const passwordsMatch = await bcrypt.compare(req.body.password, user.password);
+
+        if (!passwordsMatch) {
+            return res.status(401).send("Incorrect email or password!").end();
+        }
 
         const secret = crypto.randomBytes(64).toString('hex');
 
-        bcrypt.compare(req.body.password, user.password)
-             .then((result)=>{
-                if(result){
-                    const token = jwt.sign({
-                        _id: user._id,
-                        username: user.username
-                    }, secret,
-                    { expiresIn: '7d'});
-
-                    res.status(200).send({
-                        token: token,
-                        username: user.username,
-                        phone: user.phone,
-                        email: user.email
-                    }).end();
-                }
-                else {
-                    res.status(400).send("Incorrect password").end();
-                }
+        const token = jwt.sign({
+            _id: user.id,
+            username: user.username
+        }, secret, {
+            expiresIn: '7d'
         });
 
+        res.status(200).send({
+            token: token,
+            username: user.username,
+            phone: user.phone,
+            email: user.email
+        }).end();
+    } catch (err) {
+        res.status(500).send("An error occurred").end();
     }
-    else {
-        res.status(404).send(error.message).end();
-    }  
 });
 
 router.delete('/:id', async (req, res)=>{
@@ -93,7 +97,7 @@ router.delete('/:id', async (req, res)=>{
 router.put('/:id', async (req, res)=>{
     try{
         const user = await User.findOne({
-            _id: req.params.id
+            id: req.params.id
         });
 
         if (!user){
@@ -104,7 +108,6 @@ router.put('/:id', async (req, res)=>{
         user.username = req.body.username;
         user.password = req.body.password;
         user.email = req.body.email;
-        user.image = req.body.image;
 
         await User.save();
         res.status(200).send(user).end();

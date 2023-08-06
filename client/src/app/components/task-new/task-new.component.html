@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <form class="bg-dark p-4 rounded text-center" #taskForm="ngForm" (ngSubmit)="addtask(taskForm)">
+        <h1 class="text-light mb-4  fw-bold">Add New Task</h1>
+        <div class="mb-3">
+            <label for="title" class="form-label text-light fs-3 fw-bold">Title</label>
+            <input type="text" class="form-control text-center fs-4" id="title" name="title"
+                   placeholder="Enter task title" required minlength="5" maxlength="20" ngModel #title="ngModel">
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+                <div *ngIf="title.errors?.['required']">Title is required.</div>
+                <div *ngIf="title.errors?.['minlength']">Title must be at least 5 characters long.</div>
+                <div *ngIf="title.errors?.['maxlength']">Title cannot exceed 20 characters.</div>
+            </div>
+                
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label text-light fs-3 fw-bold">Description</label>
+            <textarea class="form-control text-center fs-4" id="description" name="description"
+                      rows="3" placeholder="Enter task description" required minlength="10" maxlength="100" ngModel #description="ngModel"></textarea>
+            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
+                <div *ngIf="description.errors?.['required']">Description is required.</div>
+                <div *ngIf="description.errors?.['minlength']">Description must be at least 10 characters long.</div>
+                <div *ngIf="description.errors?.['maxlength']">Description cannot exceed 100 characters.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="priority" class="form-label text-light fs-3 fw-bold">Priority (1-5)</label>
+            <input type="number" class="form-control text-center fs-4" id="priority" name="priority"
+                   min="1" max="5" required ngModel #priority="ngModel">
+            <div *ngIf="priority.invalid && (priority.dirty || priority.touched)" class="text-danger">
+                <div *ngIf="priority.errors?.['required']">Priority is required.</div>
+                <div *ngIf="priority.errors?.['min'] || priority.errors?.['max']">Priority must be between 1 and 5.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="expireddate" class="form-label text-light fs-3 fw-bold">Expired Date</label>
+            <input type="date" class="form-control text-center fs-4" id="expireddate" name="expireddate" required
+                   [min]="minDate()" ngModel #expireddate="ngModel">
+            <div *ngIf="expireddate.invalid && (expireddate.dirty || expireddate.touched)" class="text-danger">
+                <div *ngIf="expireddate.errors?.['required']">Expired Date is required.</div>
+                <div *ngIf="expireddate.errors?.['min']">Expired Date cannot be before today.</div>
+            </div>
+        </div>   
+        <button type="submit" class="btn btn-primary fs-4 mt-4" [disabled]="taskForm.invalid">Add Task</button>
+    </form>
+</div>

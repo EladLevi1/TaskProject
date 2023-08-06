@@ -1,55 +1,64 @@
-<section>
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <div class="mb-md-3 mt-md-4">
+                        <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
+                        <p class="text-white-50 mb-5">Please fill your information to register!</p>
 
-                        <div class="mb-md-3 mt-md-4">
-
-                            <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
-                            <p class="text-white-50 mb-5">Please fill your information to register!</p>
-
+                        <form #registrationForm="ngForm" (ngSubmit)="register(registrationForm)">
                             <div class="form-outline form-white mb-4">
-                                <input type="email" id="typeEmailX" class="form-control form-control-lg text-center" />
-                                <label class="form-label" for="typeEmailX">Email</label>
+                                <input type="email" id="email" class="form-control form-control-lg text-center"
+                                        name="email" required ngModel #email="ngModel" pattern="^\S+@\S+\.\S+$">
+                                <label class="form-label" for="email">Email</label>
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                                    <div *ngIf="email.errors?.['required']">Email is required.</div>
+                                    <div *ngIf="email.errors?.['pattern']">Invalid email format.</div>
+                                </div>
                             </div>
 
                             <div class="form-outline form-white mb-4">
-                                <input type="text" id="typeUsernameX" class="form-control form-control-lg text-center" />
-                                <label class="form-label" for="typeUsernameX">Username</label>
+                                <input type="text" id="username" class="form-control form-control-lg text-center"
+                                       name="username" required minlength="5" maxlength="20" ngModel #username="ngModel">
+                                <label class="form-label" for="username">Username</label>
+                                <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                                    <div *ngIf="username.errors?.['required']">Username is required.</div>
+                                    <div *ngIf="username.errors?.['minlength']">Username must be at least 5 characters long.</div>
+                                    <div *ngIf="username.errors?.['maxlength']">Username cannot exceed 20 characters.</div>
+                                </div>
                             </div>
 
                             <div class="form-outline form-white mb-4">
-                                <input type="text" id="typeFullnameX" class="form-control form-control-lg text-center" />
-                                <label class="form-label" for="typeFullnameX">Full Name</label>
+                                <input type="text" id="fullname" class="form-control form-control-lg text-center"
+                                       name="fullname" required minlength="3" maxlength="30" ngModel #fullname="ngModel">
+                                <label class="form-label" for="fullname">Full Name</label>
+                                <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)" class="text-danger">
+                                    <div *ngIf="fullname.errors?.['required']">Full Name is required.</div>
+                                    <div *ngIf="fullname.errors?.['minlength']">Full Name must be at least 3 characters long.</div>
+                                    <div *ngIf="fullname.errors?.['maxlength']">Full Name cannot exceed 30 characters.</div>
+                                </div>
                             </div>
 
                             <div class="form-outline form-white mb-4">
-                                <input type="password" id="typePasswordX" class="form-control form-control-lg text-center" />
-                                <label class="form-label" for="typePasswordX">Password</label>
+                                <input type="password" id="password" class="form-control form-control-lg text-center"
+                                      name="password" required ngModel #password="ngModel" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$">
+                                <label class="form-label" for="password">Password</label>
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                                    <div *ngIf="password.errors?.['required']">Password is required.</div>
+                                    <div *ngIf="password.errors?.['pattern']">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</div>
+                                </div>
                             </div>
 
-                            <div class="form-check d-flex justify-content-center mb-4">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                                  aria-describedby="registerCheckHelpText" />
-                                <label class="form-check-label" for="registerCheck">
-                                  I have read and agree to the terms
-                                </label>
-                              </div>
+                            <button class="btn btn-outline-light btn-lg px-5" [disabled]="registrationForm.invalid">Register</button>
+                        </form>
+                    </div>
 
-                            <!-- <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button> -->
-                            <a routerLink="/list" class="btn btn-outline-light btn-lg px-5">Register</a>
-
-                        </div>
-
-                        <div>
-                            <p class="mb-0">Already have an account? <a routerLink="/login" class="text-white-50 fw-bold">Login</a></p>
-                        </div>
-
+                    <div>
+                        <p class="mb-0">Already have an account? <a routerLink="/login" class="text-white-50 fw-bold">Login</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>

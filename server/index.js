@@ -5,13 +5,13 @@ const http = require('http');
 const socketIO = require('socket.io');
 const mongoose = require('mongoose');
 
-const DBurl = 'mongodb://127.0.0.1:27017/MissionProjects';
+const DBurl = 'mongodb://127.0.0.1:27017/TasksProject';
 
 const app = express();
 const httpServer = http.createServer(app);
 const ioServer = socketIO(httpServer, {
     cors:{
-        origin: ['https://localhost:4200']
+        origin: ['http://localhost:4200']
     }
 });
 
@@ -22,37 +22,50 @@ const ioServer = socketIO(httpServer, {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const corsOptions = {
-    origin: 'http://localhost:4200'
-};
+app.use(cors());
 
-app.use(cors(corsOptions));
-
-const missionRoute = require('./routes/missionRoute');
-app.use('/MissionProjects/Missions', missionRoute);
+const taskRoute = require('./routes/taskRoute');
+app.use('/TasksProject/Tasks', taskRoute);
 
 const userRoute = require('./routes/userRoute')
-app.use('/MissionProjects/Users', userRoute);
+app.use('/TasksProject/Users', userRoute);
+
+// ioServer.on('connection', (socket) => {
+//     console.log('user connected');
+
+//     socket.on('onmessage', (message) => {
+//         //socket.emit('newmessage', message);
+//         //socket.broadcast.emit('newmessage', message);
+
+//         ioServer.emit('newmessage', message);
+//     });
+
+//     socket.on('disconnect', () =>{
+//         console.log('user disconnect');
+//     });
+// });
 
 ioServer.on('connection', (socket) => {
     console.log('user connected');
 
-    socket.on('onmessage', (message) => {
-        // socket.emit('newmessage', message);
-        // socket.broadcast.emit('newmessage', message);
+    socket.on('joinRoom', room => {
+        socket.join(room);
+        console.log(`User joined room: ${room}`);
+    })
 
-        ioServer.emit('newmessage', message);
-    });
+    socket.on('chatMessage', ({room, message}) => {
+        ioServer.to(room).emit('message', message);
+    })
 
-    socket.on('disconnect', () =>{
-        console.log('user disconnect');
-    });
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    })
 });
 
 mongoose.connect(DBurl).then(() => {
     console.log("Database is connected!");
 
-    const server = app.listen(8080, () => {
+    const server = httpServer.listen(8080, () => {
         const port = server.address().port;
         console.log('server listening on port: ', port);
     });

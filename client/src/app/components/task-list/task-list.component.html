@@ -1,0 +1,116 @@
+<div class="container mt-5">
+  <div class="bg-dark p-4 rounded">
+    <h1 class="text-light mb-4 text-center">Task List</h1>
+    <div class="row mb-3">
+      <div class="col-auto">
+        <label class="text-light fs-3 fw-bold">Show:</label>
+      </div>
+      <div class="col">
+        <select class="form-select bg-dark text-light fs-5" [(ngModel)]="filterOption">
+          <option value="all">All Tasks</option>
+          <option value="done">Done Tasks</option>
+          <option value="notDone">Not Done Tasks</option>
+        </select>
+      </div>
+    </div>
+    <table class="table table-dark" id="taskTable">
+      <thead>
+        <tr>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('title')">
+            Title
+            <span class="sort-indicator" [ngClass]="getSortClass('title')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('description')">
+            Description
+            <span class="sort-indicator" [ngClass]="getSortClass('description')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('priority')">
+            Priority
+            <span class="sort-indicator" [ngClass]="getSortClass('priority')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('isdone')">
+            Status
+            <span class="sort-indicator" [ngClass]="getSortClass('isdone')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('createddate')">
+            Created Date
+            <span class="sort-indicator" [ngClass]="getSortClass('createddate')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center" (click)="sort('expireddate')">
+            Expired Date
+            <span class="sort-indicator" [ngClass]="getSortClass('expireddate')"></span>
+          </th>
+          <th class="fs-3 pb-3 border-bottom text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let task of filteredTasks">
+          <tr class="clickable-row" [routerLink]="['/task', task.id]">
+            <td class="fs-4 text-center">{{ task.title }}</td>
+            <td class="fs-4 text-center">{{ task.description }}</td>
+            <td class="fs-4 text-center">{{ task.priority }}</td>
+            <td class="fs-4 text-center" [ngClass]="{'text-success': task.isdone, 'text-danger': !task.isdone}">
+              {{ task.isdone ? 'Accomplished' : 'Unfinished' }}
+            </td>
+            <td class="fs-4 text-center">{{ task.createddate | date:'mediumDate' }}</td>
+            <td class="fs-4 text-center">{{ task.expireddate | date:'mediumDate' }}</td>
+            <td class="fs-4 text-center">
+              <a class="btn btn-primary" [routerLink]="['/edit', task.id]">Edit</a>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- <div class="container mt-4">
+  <div class="bg-dark p-4 rounded">
+    <h1 class="text-light mb-4 text-center">Task List</h1>
+    <div class="row mb-3">
+      <div class="col-auto">
+        <label class="text-light fs-3 fw-bold">Show:</label>
+      </div>
+      <div class="col">
+        <select class="form-select bg-dark text-light fs-5" [(ngModel)]="filterOption">
+          <option value="all">All Tasks</option>
+          <option value="done">Done Tasks</option>
+          <option value="notDone">Not Done Tasks</option>
+        </select>
+      </div>
+    </div>
+    <table class="table table-dark" id="taskTable">
+      <thead>
+        <tr>
+          <th class="fs-4 pb-3 border-bottom text-center" (click)="sort('title')">
+            Title
+            <span class="sort-indicator" [ngClass]="getSortClass('title')"></span>
+          </th>
+          <th class="fs-4 pb-3 border-bottom text-center" (click)="sort('priority')">
+            Priority
+            <span class="sort-indicator" [ngClass]="getSortClass('priority')"></span>
+          </th>
+          <th class="fs-4 pb-3 border-bottom text-center" (click)="sort('isdone')">
+            Status
+            <span class="sort-indicator" [ngClass]="getSortClass('isdone')"></span>
+          </th>
+          <th class="fs-4 pb-3 border-bottom text-center" (click)="sort('expireddate')">
+            Expired Date
+            <span class="sort-indicator" [ngClass]="getSortClass('expireddate')"></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let task of filteredTasks">
+          <tr class="clickable-row" [routerLink]="['/task', task._id]">
+            <td class="fs-5 text-center">{{ task.title }}</td>
+            <td class="fs-5 text-center">{{ task.priority }}</td>
+            <td class="fs-5 text-center" [ngClass]="{'text-success': task.isdone, 'text-danger': !task.isdone}">
+              {{ task.isdone ? 'Accomplished' : 'Unfinished' }}
+            </td>
+            <td class="fs-5 text-center">{{ task.expireddate | date:'mediumDate' }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div> -->
