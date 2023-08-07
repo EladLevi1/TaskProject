@@ -18,6 +18,7 @@ export class LoginComponent {
     this.userService.login(this.email, this.password).subscribe(
       (data: any) => {
         this.userService.storeToken(data.token);
+        this.userService.storeUserId(data.id);
         this.router.navigate(['']);
       },
       error => {

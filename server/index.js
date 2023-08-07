@@ -55,6 +55,7 @@ ioServer.on('connection', (socket) => {
 
     socket.on('chatMessage', ({room, message}) => {
         ioServer.to(room).emit('message', message);
+        console.log(`Message sent to room: ${room}, message: ${message}`);
     })
 
     socket.on('disconnect', () => {

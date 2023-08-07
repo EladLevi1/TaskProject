@@ -20,20 +20,22 @@ export class TaskComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.taskService.getById(parseInt(id!)).subscribe(t => {
       this.task = t as Task;
-    })
 
-    this.room = this.task.title;
+      this.room = this.task.title;
 
-    this.socketService.joinRoom(this.room);
+      this.socketService.joinRoom(this.room);
+      
+      this.messages = [...this.task.comments];
 
-    this.socketService.getMessage().subscribe((message : any) => {
-      this.messages.push(message);
+      this.socketService.getMessage().subscribe((message: any) => {
+        this.messages.push(message);
+      });
     });
   }
-
+  
   sendMessage() {
     if (this.message.trim() !== '') {
-      this.socketService.sendMessage(this.room, this.message);
+      this.socketService.sendMessage(this.room, this.message, this.task);
       this.message = '';
     }
   }

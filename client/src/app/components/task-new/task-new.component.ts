@@ -34,7 +34,7 @@ export class TaskNewComponent {
         formData.expireddate
       );
 
-      this.taskService.post(task);
+      this.taskService.post(task).subscribe();
     }
   }
 }

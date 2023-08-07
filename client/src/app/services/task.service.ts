@@ -21,7 +21,6 @@ export class TaskService {
   }
 
   post(task : Task){
-    console.log(task);
     return this.httpClient.post(this.url, task);
   }
 

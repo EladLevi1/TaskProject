@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { TaskService } from './task.service';
+import Task from '../models/task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,7 @@ import { Observable } from 'rxjs';
 export class SocketIoService {
   private socket;
 
-  constructor() {
+  constructor(private taskService: TaskService) {
     this.socket = io('http://localhost:8080');
   }
 
@@ -16,8 +18,10 @@ export class SocketIoService {
     this.socket.emit('joinRoom', room);
   }
 
-  sendMessage(room: string, message: string) {
+  sendMessage(room: string, message: string, task : Task) {
     this.socket.emit('chatMessage', { room, message });
+    task.comments.push(message);
+    this.taskService.put(task).subscribe();
   }
 
   getMessage() {
