@@ -48,12 +48,12 @@ export class TaskComponent implements OnInit {
     if (this.message.trim() !== '') {
       this.chatService.sendMessage(this.room, this.message);
       this.taskService.postMessage(this.task.id, this.message).subscribe();
+      this.task.comments.push(this.message);
       this.message = '';
     }
   }
 
   changeStatus(){
-    console.log(this.task.comments)
     this.task.isdone = !this.task.isdone;
     this.listService.editTask(this.task);
     this.taskService.put(this.task).subscribe();
