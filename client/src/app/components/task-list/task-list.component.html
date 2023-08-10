@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
   <div class="bg-dark p-4 rounded">
     <h1 class="text-light mb-4 text-center fs-1 fw-bold">Task List</h1>
     <div class="row mb-3">
@@ -8,22 +8,22 @@
       <div class="col">
         <select class="form-select bg-dark text-light fs-6" [(ngModel)]="filterOption">
           <option value="all">All Tasks</option>
-          <option value="done">Done Tasks</option>
-          <option value="notDone">Not Done Tasks</option>
+          <option value="done">Accomplished Tasks</option>
+          <option value="notDone">Unfinished Tasks</option>
         </select>
       </div>
     </div>
     <table class="table table-dark text-center" id="taskTable">
       <thead>
-        <tr>
+        <tr class="clickable-row">
           <th class="fs-3 pb-3 border-bottom" (click)="sort('title')">
             Title
             <span class="sort-indicator" [ngClass]="getSortClass('title')"></span>
           </th>
-          <th class="fs-3 pb-3 border-bottom" (click)="sort('description')">
+          <!-- <th class="fs-3 pb-3 border-bottom" (click)="sort('description')">
             Description
             <span class="sort-indicator" [ngClass]="getSortClass('description')"></span>
-          </th>
+          </th> -->
           <th class="fs-3 pb-3 border-bottom" (click)="sort('priority')">
             Priority
             <span class="sort-indicator" [ngClass]="getSortClass('priority')"></span>
@@ -45,17 +45,18 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let task of filteredTasks">
-          <tr class="clickable-row" [routerLink]="['/task', task.id]">
-            <td class="fs-4">{{ task.title }}</td>
-            <td class="fs-4">{{ task.description }}</td>
-            <td class="fs-4">{{ task.priority }}</td>
-            <td class="fs-4" [ngClass]="{'text-success': task.isdone, 'text-danger': !task.isdone}">
+          <tr>
+            <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]">{{ task.title }}</td>
+            <!-- <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]">{{ task.description }}</td> -->
+            <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]">{{ task.priority }}</td>
+            <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]" [ngClass]="{'text-success': task.isdone, 'text-danger': !task.isdone}">
               {{ task.isdone ? 'Accomplished' : 'Unfinished' }}
             </td>
-            <td class="fs-4">{{ task.createddate | date:'mediumDate' }}</td>
-            <td class="fs-4">{{ task.expireddate | date:'mediumDate' }}</td>
-            <td class="fs-4">
-              <a class="btn btn-primary" [routerLink]="['/edit', task.id]">Edit</a>
+            <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]">{{ task.createddate | date:'mediumDate' }}</td>
+            <td class="fs-4 clickable-row" [routerLink]="['/task', task.id]">{{ task.expireddate | date:'mediumDate' }}</td>
+            <td>
+              <img src="../assets/images/pencil.jpg" alt="pencil" class="action-icon" [routerLink]="['/edit', task.id]"/>
+              <img src="../assets/images/trash.jpg" alt="trash" class="action-icon" (click)="deleteTask(task)">
             </td>
           </tr>
         </ng-container>

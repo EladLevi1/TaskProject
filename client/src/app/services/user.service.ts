@@ -23,10 +23,6 @@ export class UserService {
     localStorage.setItem("token", token);
   }
 
-  storeUserId(id:string){
-    localStorage.setItem("userId", id);
-  }
-
   getToken(){
     return localStorage.getItem("token");
   }

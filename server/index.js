@@ -30,25 +30,21 @@ app.use('/TasksProject/Tasks', taskRoute);
 const userRoute = require('./routes/userRoute')
 app.use('/TasksProject/Users', userRoute);
 
-// ioServer.on('connection', (socket) => {
-//     console.log('user connected');
-
-//     socket.on('onmessage', (message) => {
-//         //socket.emit('newmessage', message);
-//         //socket.broadcast.emit('newmessage', message);
-
-//         ioServer.emit('newmessage', message);
-//     });
-
-//     socket.on('disconnect', () =>{
-//         console.log('user disconnect');
-//     });
-// });
-
 ioServer.on('connection', (socket) => {
-    console.log('user connected');
 
-    socket.on('joinRoom', room => {
+    socket.on('addTask', (task) =>{
+        ioServer.emit('newTask', task);
+    })
+
+    socket.on('removeTask', (task) =>{
+        ioServer.emit('deleteTask', task);
+    })
+
+    socket.on('editTask', (task) => {
+        ioServer.emit('changeTask', task);
+    })
+
+    socket.on('joinRoom', (room) => {
         socket.join(room);
         console.log(`User joined room: ${room}`);
     })
@@ -56,10 +52,6 @@ ioServer.on('connection', (socket) => {
     socket.on('chatMessage', ({room, message}) => {
         ioServer.to(room).emit('message', message);
         console.log(`Message sent to room: ${room}, message: ${message}`);
-    })
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
     })
 });
 

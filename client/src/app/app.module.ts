@@ -5,9 +5,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { TaskComponent } from './components/task/task.component';
-import { TaskEditComponent } from './components/task-edit/task-edit.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
-import { TaskNewComponent } from './components/task-new/task-new.component';
+import { TaskFormComponent } from './components/task-form/task-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { FormsModule } from '@angular/forms';
@@ -18,9 +17,8 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     RegisterComponent,
     TaskComponent,
-    TaskEditComponent,
     TaskListComponent,
-    TaskNewComponent,
+    TaskFormComponent,
     HomeComponent
   ],
   imports: [
