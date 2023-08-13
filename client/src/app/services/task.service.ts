@@ -29,24 +29,7 @@ export class TaskService {
     return isExist;
   }
 
-  // async checkExistTitle(title: string): Promise<boolean> {
-  //   let isExist = false;
-  //   let tasks: Task[] = [];
-  //   this.get().subscribe(async (tsks) => {
-  //     tasks = tsks as Task[];
-
-  //     for (const task of tasks) {
-  //       if (task.title == title) {
-  //         console.log('duplicate title');
-  //         isExist = true;
-  //         break;
-  //       }
-  //     }
-  //   });
-  //   console.log(isExist)
-  //   return isExist;
-  // }
-
+  // //hash map way
   // checkExistTitle(title: string): boolean {
   //   let isExist = false;
   //   let tasks: Task[] = [];
@@ -64,6 +47,7 @@ export class TaskService {
   //   return isExist;
   // }
 
+  // //binary search way
   // checkExistTitle(title: string): boolean {
   //   let tasks: Task[] = [];
 

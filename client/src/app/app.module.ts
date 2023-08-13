@@ -10,6 +10,7 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { FormsModule } from '@angular/forms';
+import { UsersOnlineComponent } from './components/users-online/users-online.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     TaskComponent,
     TaskListComponent,
     TaskFormComponent,
-    HomeComponent
+    HomeComponent,
+    UsersOnlineComponent
   ],
   imports: [
     BrowserModule,

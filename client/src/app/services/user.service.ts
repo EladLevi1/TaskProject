@@ -14,6 +14,24 @@ export class UserService {
     return this.httpClient.get(this.url)
   }
 
+  async checkExistEmail(email: string): Promise<boolean> {
+    const users = await this.get().toPromise();
+    if (!users || !Array.isArray(users)) {
+      throw new Error('Invalid users data received');
+    }
+    const isExist = users.some(user => user.email === email);
+    return isExist;
+  }
+
+  async checkExistUsername(username: string): Promise<boolean> {
+    const users = await this.get().toPromise();
+    if (!users || !Array.isArray(users)) {
+      throw new Error('Invalid users data received');
+    }
+    const isExist = users.some(user => user.username === username);
+    return isExist;
+  }
+
   login(email:string, password:string){
     return this.httpClient.post(this.url + "login",
        {email:email, password:password});

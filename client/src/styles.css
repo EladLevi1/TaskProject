@@ -2,7 +2,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #6a11cb;
-    /* background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)); */
     background: radial-gradient(ellipse at center, #2E0854, #1F45A9, #42E3FC);
     background-size: cover;
     background-position: center;

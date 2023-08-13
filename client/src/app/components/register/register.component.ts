@@ -14,9 +14,23 @@ export class RegisterComponent {
 
   constructor(private userService: UserService, private router: Router) {}
 
-  register(registrationForm: NgForm) {
+  async register(registrationForm: NgForm) {
     if (registrationForm.valid) {
       const formData = registrationForm.value;
+
+      const isDuplicateEmail = await this.userService.checkExistEmail(formData.email);
+      const isDuplicateUsername = await this.userService.checkExistUsername(formData.username);
+
+      if (isDuplicateEmail || isDuplicateUsername) {
+        if (isDuplicateEmail){
+          registrationForm.controls['email'].setErrors({ 'duplicate': true });
+        }
+        if (isDuplicateUsername){
+          registrationForm.controls['username'].setErrors({ 'duplicate': true });
+        }
+        return;
+      }
+
       const tempUser = new User(
         "1",
         formData.username,

@@ -44,7 +44,7 @@ export class TaskFormComponent implements OnInit {
   updatingDate() {
     let originalDate = new Date(this.task.expireddate);
     let year = originalDate.getFullYear().toString();
-    let month = (originalDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is 0-based
+    let month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
     let day = originalDate.getDate().toString().padStart(2, '0');
     this.newdate = `${year}-${month}-${day}`;
     this.date = formatDate(this.newdate, 'yyyy-MM-dd', 'en-US');

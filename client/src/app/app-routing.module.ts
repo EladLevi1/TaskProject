@@ -8,6 +8,7 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
 import { AuthGuard } from './guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { LogRegGuard } from './guard/logreg.guard';
+import { UsersOnlineComponent } from './components/users-online/users-online.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'list', component: TaskListComponent, canActivate: [AuthGuard] },
   { path: 'task/:id', component: TaskComponent, canActivate: [AuthGuard] },
   { path: 'new', component: TaskFormComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:id', component: TaskFormComponent, canActivate: [AuthGuard] }
+  { path: 'edit/:id', component: TaskFormComponent, canActivate: [AuthGuard] },
+  { path: 'online', component: UsersOnlineComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@
                                 <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                                     <div *ngIf="email.errors?.['required']">Email is required.</div>
                                     <div *ngIf="email.errors?.['pattern']">Invalid email format.</div>
+                                    <div *ngIf="email.errors?.['duplicate']">Email already exists.</div>
                                 </div>
                             </div>
 
@@ -26,6 +27,7 @@
                                     <div *ngIf="username.errors?.['required']">Username is required.</div>
                                     <div *ngIf="username.errors?.['minlength']">Username must be at least 5 characters long.</div>
                                     <div *ngIf="username.errors?.['maxlength']">Username cannot exceed 20 characters.</div>
+                                    <div *ngIf="username.errors?.['duplicate']">Username already exists.</div>
                                 </div>
                             </div>
 
@@ -42,11 +44,14 @@
 
                             <div class="form-outline form-white mb-4">
                                 <input type="password" id="password" class="form-control form-control-lg text-center"
-                                      name="password" required ngModel #password="ngModel" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$">
+                                      name="password" required ngModel #password="ngModel" minlength="6" maxlength="20" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$">
                                 <label class="form-label" for="password">Password</label>
                                 <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                                     <div *ngIf="password.errors?.['required']">Password is required.</div>
-                                    <div *ngIf="password.errors?.['pattern']">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</div>
+                                    <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters long.</div>
+                                    <div *ngIf="password.errors?.['maxlength']">Password cannot exceed 20 characters.</div>
+                                    <!-- <div *ngIf="password.errors?.['pattern']">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</div> -->
+                                    <div *ngIf="password.errors?.['pattern']">Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</div>
                                 </div>
                             </div>
 
